@@ -219,7 +219,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="Qy3-wP-Jce">
-                        <barButtonItem key="leftBarButtonItem" title="SignOut" id="PaG-sw-aba"/>
+                        <barButtonItem key="leftBarButtonItem" title="SignOut" id="PaG-sw-aba">
+                            <connections>
+                                <action selector="onLogoutButton:" destination="K59-Kj-09z" id="paH-eE-xGj"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="New" id="6ms-aC-rhq">
                             <connections>
                                 <segue destination="SSn-Wr-0wj" kind="showDetail" identifier="newTweet" id="OnM-Z8-yM6"/>

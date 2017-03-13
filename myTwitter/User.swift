@@ -47,28 +47,26 @@ class User: NSObject {
                 
                 let userData = defaults.object(forKey: "currentUserData") as? NSData
                 
-                if let userData = userData {
-                    let dictionary = try! JSONSerialization.jsonObject(with: userData as Data, options: []) as! NSDictionary
-                    
-                    _currentUser = User(dictionary: dictionary)
-                }
+                guard let userInfo = userData else { return nil }
+                let dictionary = try! JSONSerialization.jsonObject(with: userInfo as Data, options: []) as! NSDictionary
+                
+                _currentUser = User(dictionary: dictionary)
             }
             return _currentUser
         }
         
         set(user) {
             _currentUser = user
-            
             let defaults = UserDefaults.standard
-            
             if let user = user {
                 let data = try! JSONSerialization.data(withJSONObject: user.dictionary!, options: [])
-                
                 defaults.set(data, forKey: "currentUserData")
                 defaults.synchronize()
             } else {
-                defaults.set(nil, forKey: "currentUserData")
+                let appDomain = Bundle.main.bundleIdentifier!
+                UserDefaults.standard.removePersistentDomain(forName: appDomain)
             }
         }
     }
+    
 }

@@ -25,6 +25,10 @@ class FeedListViewController: UIViewController {
         loadTimeLineData()
     }
     
+    @IBAction func onLogoutButton(_ sender: UIBarButtonItem) {
+        print("logout")
+        TwitterClient.shared().logout()
+    }
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
     }
