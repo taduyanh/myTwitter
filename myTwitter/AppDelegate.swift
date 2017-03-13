@@ -16,7 +16,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if User.currentUser != nil {
+            
+            let vc = storyboard.instantiateViewController(withIdentifier: "feedListViewController") as! UINavigationController
+            window?.rootViewController = vc
+            print("There're a logged in users")
+//            let vc = storyboard.instantiateViewController(withIdentifier: "FeedListViewController") as! FeedListViewController
+//            window?.rootViewController = vc
+            
+//            let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+//            
+//            menuViewController.hamburgerViewController = hamburgerViewController
+//            hamburgerViewController.menuViewController = menuViewController
+        }
+        
+        NotificationCenter.default.addObserver(forName: User.userDidLogoutNotification, object: nil, queue: OperationQueue.main) { (Notification) in
+            let vc = storyboard.instantiateInitialViewController()
+            self.window?.rootViewController = vc
+        }
+        
         return true
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

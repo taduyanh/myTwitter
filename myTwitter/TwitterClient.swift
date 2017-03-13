@@ -49,7 +49,8 @@ class TwitterClient : BDBOAuth1SessionManager {
             guard let data = response as! NSDictionary? else {
                 return
             }
-            print(data)
+            let user = User(dictionary: data)
+            User.currentUser = user
             self.loggedInCallback?()
         }, failure: { (task: URLSessionDataTask?, error: Error) in
             print(error.localizedDescription)
@@ -96,7 +97,7 @@ class TwitterClient : BDBOAuth1SessionManager {
         })
     }
     
-    func tweet(status: String, success: @escaping (Tweet) -> (), failure: @escaping (NSError) -> ()) {
+    func tweet(status: String, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> () = TwitterClient.handleError) {
         post("1.1/statuses/update.json", parameters: ["status": status], progress: nil, success: { (task: URLSessionDataTask, response:  Any?) in
             if let response = response {
                 let tweet = Tweet(dictionary: response as! NSDictionary)
@@ -104,7 +105,7 @@ class TwitterClient : BDBOAuth1SessionManager {
             }
             
         }, failure: { (task: URLSessionDataTask?, error: Error) in
-            failure(error as NSError)
+            failure(error)
         })
     }
 

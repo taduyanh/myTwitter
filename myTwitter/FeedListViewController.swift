@@ -25,6 +25,9 @@ class FeedListViewController: UIViewController {
         loadTimeLineData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
     func loadTimeLineData() {
         tweets = []
         tableView.reloadData()
@@ -51,6 +54,12 @@ class FeedListViewController: UIViewController {
             let navbar = segue.destination as! UINavigationController
             let vc = navbar.topViewController as! DetailFeedViewController
             vc.tweet = selectedTweet
+        }
+        
+        if segue.identifier == "newTweet" {
+            let navbar = segue.destination as! UINavigationController
+            let vc = navbar.topViewController as! NewTweetViewController
+            vc.user = User.currentUser
         }
     }
 }
